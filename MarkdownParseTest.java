@@ -8,10 +8,9 @@ import java.nio.file.*;
 public class MarkdownParseTest {
 
     void testHelper(String fileName, String[] strArr) throws IOException {
-        MarkdownParse testerObj = new MarkdownParse();
-        Path fileNamePath = Path.of(fileName);
-        String content = Files.readString(fileNamePath);
-        ArrayList<String> links = testerObj.getLinks(content);
+        MarkdownParse parser = new MarkdownParse();
+        String content = Files.readString(Path.of(fileName));
+        ArrayList<String> links = parser.getLinks(content);
         assertArrayEquals(strArr, links.toArray());
     }
 

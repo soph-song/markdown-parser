@@ -22,7 +22,10 @@ public class MarkdownParse {
                 break;
             }
             
-            if (markdown.charAt(openBracket-1) != '!') {
+            if (openBracket != 0 && markdown.charAt(openBracket-1) != '!') {
+                toReturn.add(markdown.substring(openParen + 1, closeParen));
+            }
+            else {
                 toReturn.add(markdown.substring(openParen + 1, closeParen));
             }
             

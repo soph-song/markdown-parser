@@ -85,4 +85,9 @@ public class MarkdownParseTest {
     public void testToSucceed() throws IOException {
         testHelper("test-file.md", new String[]{"https://something.com", "some-thing.html"});
     }
+
+    @Test
+    public void lab5test() throws IOException {
+        testHelper("lab5failingtest.md", new String[]{"something.com"});
+    }
 }

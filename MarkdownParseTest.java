@@ -80,4 +80,9 @@ public class MarkdownParseTest {
     public void testMarkdownImportedFile8() throws IOException {
         testHelper("imported_tests/test-file8.md", new String[]{"a link on the first line"});
     }
+
+    @Test
+    public void testToFail() throws IOException {
+        testHelper("test-file.md", new String[]{"failing"});
+    }
 }

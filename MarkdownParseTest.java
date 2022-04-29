@@ -82,7 +82,7 @@ public class MarkdownParseTest {
     }
 
     @Test
-    public void testToFail() throws IOException {
-        testHelper("test-file.md", new String[]{"failing"});
+    public void testToSucceed() throws IOException {
+        testHelper("test-file.md", new String[]{"https://something.com", "some-thing.html"});
     }
 }

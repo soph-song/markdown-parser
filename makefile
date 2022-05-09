@@ -6,3 +6,4 @@ target1:
 
 target2:
 	echo "target 2!"
+	touch target2

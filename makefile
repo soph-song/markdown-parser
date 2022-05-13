@@ -1,9 +1,8 @@
-all: target1 target2
-	echo "All done!"
+MarkdownParse.class: MarkdownParse.java
+	javac MarkdownParse.java
 
-target1: 
-	echo "target 1!"
+MarkdownParseTest.class: MarkdownParseTest.java
+	javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar MarkdownParseTest.java
 
-target2:
-	echo "target 2!"
-	touch target2
+test: MarkdownParse.class MarkdownParseTest.class
+	java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore MarkdownParseTest

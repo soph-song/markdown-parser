@@ -90,4 +90,9 @@ public class MarkdownParseTest {
     public void lab5test() throws IOException {
         testHelper("lab5failingtest.md", new String[]{"something.com"});
     }
+
+    @Test
+    public void lab8test() throws IOException {
+	testHelper("lab8testfile.md", new String[]{"startoftheline.com"});
+	}    
 }

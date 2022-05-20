@@ -16,9 +16,9 @@ public class MarkdownParse {
         int lastCloseParenIndex = markdown.indexOf(")", openParen);
         while (openParenCount > 0 && closeParen < markdown.length()) {
             if (markdown.charAt(closeParen) == '(') {
+            }
 
-                lastCloseParenIndex = markdown.indexOf(")", openParen);
-            } else if (markdown.charAt(closeParen) == ')') {
+            else if (markdown.charAt(closeParen) == ')') {
                 openParenCount--;
                 lastCloseParenIndex = closeParen;
             }

@@ -93,6 +93,21 @@ public class MarkdownParseTest {
 
     @Test
     public void lab8test() throws IOException {
-	testHelper("lab8testfile.md", new String[]{"startoftheline.com"});
+	    testHelper("lab8testfile.md", new String[]{"startoftheline.com"});
 	}    
+
+    // @Test
+    // public void snippet1Test() throws IOException {
+    //     testHelper("snippet1.md", new String[]{"`google.com", "google.com", "ucsd.edu"});
+    // }
+
+    // @Test
+    // public void snippet2Test() throws IOException {
+    //     testHelper("snippet2.md", new String[]{"a.com", "a.com(())", "example.com"});
+    // }
+
+    @Test
+    public void snippet3Test() throws IOException {
+        testHelper("snippet3.md", new String[]{"https://sites.google.com/eng.ucsd.edu/cse-15l-spring-2022/schedule"});
+    }
 }

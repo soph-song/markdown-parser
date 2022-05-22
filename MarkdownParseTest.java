@@ -6,94 +6,62 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import java.util.ArrayList;
-
-import java.nio.file.*;
-
-
 public class MarkdownParseTest {
 
-    void testHelper(String fileName, String[] strArr) throws IOException {
-        MarkdownParse parser = new MarkdownParse();
-        String content = Files.readString(Path.of(fileName));
-        ArrayList<String> links = parser.getLinks(content);
-        assertArrayEquals(strArr, links.toArray());
+    @Test
+    public void testFile1() throws IOException {
+        String contents= Files.readString(Path.of("./test-file.md"));
+        List<String> expect = List.of("https://something.com", "some-thing.html");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 
     @Test
-    public void addition() {
-        assertEquals(2, 1 + 1);
+    public void testFile2() throws IOException {
+        String contents= Files.readString(Path.of("./test-file2.md"));
+        List<String> expect = List.of("https://something.com", "some-page.html");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 
     @Test
-    public void testMarkdownParseTestFile() throws IOException {
-        testHelper("test-file.md", new String[]{"https://something.com", "some-thing.html"});
+    public void testLinkAtBeginning() {
+        String contents= "[link title](a.com)";
+        List<String> expect = List.of("a.com");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 
     @Test
-    public void testMarkdownParseNewFile() throws IOException {
-        testHelper("new-file.md", new String[]{"https://something.com", "some-thing.html"});
+    public void testSpaceInURL() {
+        String contents = "[title](space in-url.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 
     @Test
-    public void testMarkdownParseImageFile() throws IOException {
-        testHelper("image-file.md", new String[]{"some-thing.html"});
+    public void testSpaceAfterParen() {
+        String contents = "[title]( space-in-url.com)";
+        List<String> expect = List.of("space-in-url.com");
+        assertEquals(expect, MarkdownParse.getLinks(contents));
     }
 
     @Test
-    public void testMarkdownParseBuggyFile() throws IOException {
-        testHelper("buggy-file.md", new String[]{"https://something.com", "some-thing.html"});
+    public void testSpaceBeforeParen() {
+        String contents = "[title]   (should-not-count.com)";
+        List<String> expect = List.of();
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
 
     @Test
-    public void testMarkdownImportedFile1() throws IOException {
-        testHelper("imported_tests/test-file.md", new String[]{"https://something.com", "some-thing.html"});
+    public void testNestedParens() throws IOException {
+        String contents = Files.readString(Path.of("test-parens-inside-link.md"));
+        List<String> expect = List.of("something.com()", "something.com((()))", "something.com", "boring.com");
+        assertEquals(expect, MarkdownParse.getLinks(contents));
+    }
+
+    @Test
+    public void testMissingCloseParen() throws IOException {
+        String contents = Files.readString(Path.of("test-missing-paren-plus-test-file2.md"));
+        List<String> expect = List.of("https://something.com", "some-page.html");
+        assertEquals(MarkdownParse.getLinks(contents), expect);
     }
     
-    @Test
-    public void testMarkdownImportedFile2() throws IOException {
-        testHelper("imported_tests/test-file2.md", new String[]{"https://something.com", "some-page.html"});
-
-    }
-
-    @Test
-    public void testMarkdownImportedFile3() throws IOException {
-        testHelper("imported_tests/test-file3.md", new String[]{});
-
-    }
-
-    @Test
-    public void testMarkdownImportedFile4() throws IOException {
-        testHelper("imported_tests/test-file4.md", new String[]{});
-    }
-
-    @Test
-    public void testMarkdownImportedFile5() throws IOException {
-        testHelper("imported_tests/test-file5.md", new String[]{});
-    }
-
-    @Test
-    public void testMarkdownImportedFile6() throws IOException {
-        testHelper("imported_tests/test-file6.md", new String[]{});
-    }
-
-    @Test
-    public void testMarkdownImportedFile7() throws IOException {
-        testHelper("imported_tests/test-file7.md", new String[]{});
-    }
-
-    @Test
-    public void testMarkdownImportedFile8() throws IOException {
-        testHelper("imported_tests/test-file8.md", new String[]{"a link on the first line"});
-    }
-
-    @Test
-    public void testToSucceed() throws IOException {
-        testHelper("test-file.md", new String[]{"https://something.com", "some-thing.html"});
-    }
-
-    @Test
-    public void lab5test() throws IOException {
-        testHelper("lab5failingtest.md", new String[]{"something.com"});
-    }
 }

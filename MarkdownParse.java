@@ -53,13 +53,40 @@ public class MarkdownParse {
         // the next )
         int currentIndex = 0;
         while(currentIndex < markdown.length()) {
-            int nextOpenBracket = markdown.indexOf("[", currentIndex);
-            int nextCodeBlock = markdown.indexOf(System.lineSeparator() + "```");
-            if(nextCodeBlock < nextOpenBracket && nextCodeBlock!=-1 ) {
-                int endOfCodeBlock = markdown.indexOf(System.lineSeparator() + "```");
-                currentIndex = endOfCodeBlock + 1;
+            int openBracket = markdown.indexOf("[", currentIndex);
+            if (openBracket==-1) { break; }
+            if (openBracket > 0 && markdown.substring(openBracket-1, openBracket).equals("!")) {
+                currentIndex=openBracket+1;
                 continue;
             }
+            int c=0; 
+            int closeBracket = -1;
+            int startIndex = openBracket;
+            while (startIndex < markdown.length()) {
+                String nextChar = markdown.substring(startIndex, startIndex+1);
+                if (nextChar.equals("[")) {
+                    c++;
+                } else if (nextChar.equals("]")) {
+                    c--;
+                    if (c==0) {
+                        closeBracket = startIndex;
+                        break;
+                    }
+                }
+                startIndex++;
+            }
+            if (closeBracket==-1 || closeBracket+2>markdown.length()) { break; }
+            if (!markdown.substring(closeBracket+1, closeBracket+2).equals("(")) {
+                currentIndex=closeBracket+1;
+                continue;
+            }
+            int openParen = markdown.indexOf("(", closeBracket);
+            if (openParen==-1) { break; }
+            int closeParen = markdown.indexOf(")", openParen);
+            if (closeParen==-1) { break; }
+            toReturn.add(markdown.substring(openParen + 1, closeParen));
+            currentIndex = closeParen + 1;
+        }
 
             // System.out.format("%d\t%d\t%s\n", currentIndex, nextOpenBracket, toReturn);
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);

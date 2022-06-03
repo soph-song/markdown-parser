@@ -63,25 +63,6 @@ public class MarkdownParseTest {
         List<String> expect = List.of("https://something.com", "some-page.html");
         assertEquals(MarkdownParse.getLinks(contents), expect);
     }
-<<<<<<< Updated upstream
+
     
 }
-=======
-
-    @Test
-    public void snippet1test() throws IOException {
-        testHelper("snippet1.md", new String[]{"`google.com", "google.com", "ucsd.edu"});
-    }
-
-    @Test
-    public void snippet2test() throws IOException {
-        testHelper("snippet2.md", new String[]{"a.com", "a.com(())", "example.com"});
-    }
-
-    @Test
-    public void snippet3test() throws IOException {
-        testHelper("snippet3.md", new String[]{"https://sites.google.com/eng.ucsd.edu/cse-15l-spring-2022/schedule"});
-    }
-    
-}
->>>>>>> Stashed changes

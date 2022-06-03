@@ -1,14 +1,28 @@
 import org.commonmark.node.*;
 import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
+import java.util.*;
 
 class TryCommonMark {
-    public static void  main(String[] args) {
+    public static void main(String[] args) {
         Parser parser = Parser.builder().build();
-        Node node = parser.parse("Example\n=======\n\nSome more text");
-        WordCountVisitor visitor = new WordCountVisitor();
+        Node node = parser.parse("[link](url)  [anotherlink](anotherurl) ![notalink](notaurl)");
+        // WordCountVisitor visitor = new WordCountVisitor();
+        // node.accept(visitor);
+        // System.out.println(visitor.wordCount);
+        LinkVisitor visitor = new LinkVisitor();
         node.accept(visitor);
-        System.out.println(visitor.wordCount);  // 4
+        System.out.println(visitor.links);
+    }
+}
+
+class LinkVisitor extends AbstractVisitor {
+    ArrayList<String> links = new ArrayList<>();
+
+    @Override
+    public void visit(Link link) {
+        links.add(link.getDestination());
+
+        visitChildren(link);
     }
 }
 
